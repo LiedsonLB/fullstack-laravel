@@ -1,4 +1,4 @@
-# Desafio Fullstack Laravel - API de Encurtamento de URLs - Prazo 1 dia (Francisco Liédson)
+# Desafio Fullstack Laravel - API de Encurtamento de URLs (Francisco Liédson)
 
 ## Sobre o Projeto
 
