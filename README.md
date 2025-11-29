@@ -1,59 +1,158 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Desafio Fullstack Laravel - API de Encurtamento de URLs - Prazo 1 dia (Francisco Liédson)
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Sobre o Projeto
 
-## About Laravel
+Este projeto consiste em uma API RESTful desenvolvida em Laravel para encurtamento e gerenciamento de URLs.
+A aplicação permite criar URLs curtas, redirecioná-las para o endereço original, consultar todas as URLs cadastradas e acompanhar o número de acessos (hits) de cada link encurtado.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+O sistema foi criado com foco em boas práticas de arquitetura, separação de camadas (Service Layer), validações robustas, logs, e uso adequado de status HTTP.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Tecnologias Utilizadas
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+<div style="display: flex; flex-wrap: wrap; gap: 5px; justify-content: center"> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/php/php-original.svg" height="30" width="40" alt="PHP"/> 
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/laravel/laravel-original.svg" height="30" width="40" />
+           <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" height="30" width="40" alt="PostgreSQL"/> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" height="30" width="40" alt="Docker"/> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/insomnia/insomnia-original.svg" height="30" width="40" alt="Insomnia"/> <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" height="30" width="40" alt="GitHub"/> </div>
 
-## Learning Laravel
+## Objetivos do Desafio
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+- Criar uma API REST para encurtamento de URLs
+- Registrar quantidade de acessos por URL
+- Redirecionar URLs curtas para seus destinos originais
+- Implementar validações, logs e respostas coerentes
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Funcionalidades
 
-## Laravel Sponsors
+1. Criar URL encurtada.
+2. Redirecionar URL curta.
+3. Listar URLs criadas.
+4. Contabilizar acessos (hits).
+5. Expiração opcional por data ou dias.
+6. Validações com Form Request.
+7. Arquitetura orientada a serviços (Service Layer).
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Endpoints
 
-### Premium Partners
+Responsável pelo gerenciamento de URLs, incluindo criação, consulta, atualização e exclusão de URLs.
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### Headers
+- Content-Type: application/json
+- Accept: application/json
 
-## Contributing
+| **Método** | **Endpoint**         | **Descrição**                                     |
+| ---------- | -------------------- | ------------------------------------------------- |
+| POST       | `/api/v1/urls`       | Cria uma nova URL encurtada                       |
+| GET        | `/api/v1/urls`       | Lista todas as URLs criadas                       |
+| GET        | `/{code}`            | Redireciona para a URL original e incrementa hits |
+| GET        | `/api/v1/urls/{id}`  | Retorna detalhes de uma URL                       |
+| PUT        | `/update-event/{id}` | Atualiza um evento pelo ID                        |
+| DELETE     | `/delete-event/{id}` | Exclui um evento pelo ID (verifica ingressos)     |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+---
+Dados de Entrada: 
+```javascript
+{
+  "original_url": "https://liedsonbarros.vercel.app"
+} 
+```
+Dados de Saída:
+```javascript
+{
+  "id": 1,
+  "code": "xY7kL",
+  "short_url": "http://127.0.0.1:8000/xY7kL",
+  "original_url": "https://liedsonbarros.vercel.app",
+  "expires_at": null,
+  "hits": 0,
+  "created_at": "2025-11-28T18:01:05.000000Z"
+}
+ 
+```
+---
 
-## Code of Conduct
+## Configuração do Projeto
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Pré-requisitos
 
-## Security Vulnerabilities
+- PHP 8.3.28
+- Composer 2.8.6
+- Laravel 12.40.2
+- PostgreSQL 14
+- Docker (opcional): Caso prefira não instalar o PostgreSQL localmente, você pode usar o container Docker fornecido no `docker-compose.yml` para rodar o banco de dados localmente.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Extensões PHP necessárias
 
-## License
+- mbstring
+- curl
+- openssl
+- pdo
+- json
+- xml
+- fileinfo
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Passos para Executar Localmente
+
+####  Clone o repositório:
+```bash
+git clone https://github.com/LiedsonLB/fullstack-laravel.git
+```
+
+### Rodando o banco de dados com Docker (opcional)
+Na raiz do projeto, execute:
+```bash
+docker compose up -d
+```
+
+#### Instale as dependências do Composer:
+```bash
+cd fullstack-laravel
+composer install
+```
+
+#### Configure o arquivo .env:
+```bash
+cp .env.example .env
+```
+Edite o arquivo `.env` para configurar a conexão com o banco de dados PostgreSQL (Mas a .env não está no .gitignore):
+```
+DB_CONNECTION=pgsql
+DB_HOST=127.0.0.1
+DB_PORT=5432
+DB_DATABASE=encurtador
+DB_USERNAME=admin
+DB_PASSWORD=admin
+```
+
+## Estrutura do Banco de Dados
+### Tabelas
+- short_urls
+  - id (bigint, primary key)
+  - code (string, unique)
+  - short_url (string, unique)
+  - original_url (string)
+  - expires_at (timestamp, nullable)
+  - hits (integer, default 0)
+  - created_at (timestamp)
+  - updated_at (timestamp)
+  
+## Imagens do Projeto
+
+## Tabela do Banco de Dados
+![Tabela do Banco de Dados imagem](/snapshots/database.png)
+
+<!-- aqui vai ser a requisição POST -->
+### Requisição POST para criar URL encurtada
+![Requisição POST imagem](/snapshots/post%20link.PNG)
+
+### Requisição GET para Listar informações da URL encurtada
+![Resposta POST imagem](/snapshots/get%20link.PNG)
+
+### Requisição GET para Listar as URLs encurtada
+![Requisição GET imagem](/snapshots/get%20links.PNG)
+
+
+## Deployment
+O projeto ainda está sendo implementado para deployment em servidores de produção como o Render. até a presente data (28/11/2025).
+
+## Releases
+
+- Release v1.0 ✅

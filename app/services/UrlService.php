@@ -4,24 +4,43 @@ namespace App\Services;
 
 use App\Models\ShortUrl;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class UrlService
 {
     public function create(array $data): ShortUrl
     {
-        $payload = [
-            'original_url' => $data['original_url'],
-        ];
+        Log::info('UrlService: Iniciando.', ['data' => $data]);
 
-        if (!empty($data['code'])) {
-            $payload['code'] = $data['code'];
+        try {
+            $payload = [
+                'original_url' => $data['original_url'],
+                'hits' => 0,
+            ];
+
+            if (!empty($data['code'])) {
+                $payload['code'] = $data['code'];
+            } else {
+                $payload['code'] = ShortUrl::generateUniqueCode();
+            }
+
+            if (!empty($data['expires_in_days'])) {
+                $payload['expires_at'] = Carbon::now()->addDays((int)$data['expires_in_days']);
+            }
+
+            $shortUrl = ShortUrl::create($payload);
+
+            Log::info('UrlService: crisco.', ['id' => $shortUrl->id]);
+            return $shortUrl;
+        } catch (\Throwable $e) {
+            Log::error('error.', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ]);
+            throw $e;
         }
-
-        if (!empty($data['expires_in_days'])) {
-            $payload['expires_at'] = Carbon::now()->addDays((int)$data['expires_in_days']);
-        }
-
-        return ShortUrl::create($payload);
     }
 
     public function findByCode(string $code): ?ShortUrl

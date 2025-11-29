@@ -2,7 +2,7 @@ version: "3.9"
 services:
   db_encurtador:
     image: postgres:16
-    container_name: encurtador_db
+    container_name: db_encurtador
     restart: always
     environment:
       POSTGRES_USER: admin
