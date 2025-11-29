@@ -77,7 +77,7 @@ Dados de Saída:
 - Composer 2.8.6
 - Laravel 12.40.2
 - PostgreSQL 14
-- Docker (opcional): Caso prefira não instalar o PostgreSQL localmente, você pode usar o container Docker fornecido no `docker-compose.yml` para rodar o banco de dados localmente.
+- Docker (opcional): Caso prefira não instalar o PostgreSQL localmente, você pode usar o container Docker fornecido no `docker-compose.yml` para rodar o banco de dados criando uma pasta como volume no próprio projeto.
 
 ### Extensões PHP necessárias
 
